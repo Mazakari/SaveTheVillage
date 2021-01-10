@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject losePopup = null;// Lose popup reference
     [SerializeField] private GameObject notEnoughMeatPopup = null;// NoEnoughMeatPopup reference
     [SerializeField] private GameObject safeTurnsLeft = null;// Safe turns text and background reference
+    [SerializeField] private GameObject mainMenuPopup = null;// Main Menu popup reference
+
 
     [SerializeField] private int meatWinCondition = 100;// Level win condition
 
@@ -63,6 +65,7 @@ public class GameManager : MonoBehaviour
     private bool isGameOver = false;// If fail or win conditions are met
     private bool isPopupShowing = false;// Is popup showing at the moment
     private bool isRaidActive = false;// Is raid already activated
+    private bool isMainMenuShowing = false;// Is main menu now is showing
     private int raidActivationCycles = 3;// Cycles untill raid will be activated
     private AudioManager audioManager = null;// Audio Manager reference
     private AudioSource audioSource = null;// GameManager AudioSource reference
@@ -96,6 +99,7 @@ public class GameManager : MonoBehaviour
         RaidTimerHandler();
         GameConditionsHandler();
         PopupShowTimerHandler();
+        MainMenuHandler();
 
     }
 
@@ -112,6 +116,7 @@ public class GameManager : MonoBehaviour
         winPopup.SetActive(false);
         losePopup.SetActive(false);
         notEnoughMeatPopup.SetActive(false);
+        mainMenuPopup.SetActive(false);
 
         meatIncomePerCycle = goblinHuntersAmount * meatIncomePerGoblinHumter;
         meatOutcomePerCycle = trollWarriorsAmount * meatOutcomePerTrollWarrior;
@@ -173,6 +178,22 @@ public class GameManager : MonoBehaviour
                 meatAmount = 0;
             }
             
+        }
+    }
+
+    private void MainMenuHandler()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && isGameOver == false && isMainMenuShowing == false)
+        {
+            isMainMenuShowing = true;
+            Time.timeScale = 0;
+            mainMenuPopup.SetActive(true);
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape) && isGameOver == false && isMainMenuShowing == true)
+        {
+            isMainMenuShowing = false;
+            Time.timeScale = 1;
+            mainMenuPopup.SetActive(false);
         }
     }
 
@@ -356,5 +377,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void CountinueGame()
+    {
+        isMainMenuShowing = false;
+        Time.timeScale = 1;
+        mainMenuPopup.SetActive(false);
+    }
     
 }

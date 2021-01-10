@@ -108,4 +108,12 @@ public class GameStateController : MonoBehaviour
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
+    /// <summary>
+    /// Loads game main menu
+    /// </summary>
+    public void MainMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
 }
